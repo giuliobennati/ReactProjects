@@ -1,2 +1,0 @@
-Risolvi il problema del valore dell'html select che è messo come stringa e non come booleano
-Usa una classe per immagazzinare tutta la logica.

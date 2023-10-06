@@ -11,7 +11,7 @@ import ModalCentered from "../ModalCentered/ModalCentered";
 
 
 interface Props {
-  onAddTask: (task: ITask) => void;  
+  onAddTask: (task: ITask) => void;
   statusTask: taskFilter;
   setStatusTask: (value: taskFilter) => void;
 }
@@ -34,6 +34,7 @@ function ManageToDo({ onAddTask, statusTask, setStatusTask }: Props) {
         year: "numeric",
       }),
       status: statusTaskRef.current!.value as ("Completed" | "Incompleted"),
+      id: undefined
     };
 
     onAddTask(newTask);

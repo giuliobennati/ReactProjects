@@ -5,6 +5,7 @@ import { AiFillEdit, AiOutlineCheck } from "react-icons/ai";
 import { Fragment, useState } from "react";
 import ModalCentered from "../ModalCentered/ModalCentered";
 import { toast } from "react-toastify";
+import { taskDb } from "../../models/TaskDb";
 
 interface TaskListProps {
     taskList: ITask[];
@@ -27,13 +28,15 @@ function ShowTasks({ taskList, setTaskList, statusTask }: TaskListProps) {
                 toast.error("Il task da modificare risulta non selezionato!");
                 return;
             }
-    
+            
             taskToEdit.title = titleTaskRef.current.value;
             taskToEdit.status = statusTaskRef.current!.value as ("Completed" | "Incompleted");
+            
+            taskDb.tasks.update(taskToEdit.id!, {title: taskToEdit.title, status: taskToEdit.status});
     
             setTaskList([...taskList]);
     
-            localStorage.setItem("taskList", JSON.stringify([...taskList]));
+            // localStorage.setItem("taskList", JSON.stringify([...taskList]));
     
             setShowEditModal(false);
         }catch(ex){
@@ -46,12 +49,14 @@ function ShowTasks({ taskList, setTaskList, statusTask }: TaskListProps) {
 
     const handleRemoveTask = (index: number) => {
         try{
+            taskDb.tasks.where("id").anyOf(taskList[index].id!).delete();
+
             taskList.splice(index, 1);
     
             setTaskList([...taskList]);
-            localStorage.setItem("taskList", JSON.stringify([...taskList]));
-    
+
             toast.success("Attività rimossa con successo!");
+            // localStorage.setItem("taskList", JSON.stringify([...taskList]));
         }catch(ex){
             if(ex instanceof Error)
                 toast.error(ex.message);
@@ -62,8 +67,11 @@ function ShowTasks({ taskList, setTaskList, statusTask }: TaskListProps) {
 
     const handleTaskStatus = (task : ITask) => {
         task.status = task.status == "Completed" ? "Incompleted" : "Completed";
+        
+        taskDb.tasks.update(task.id!, {status: task.status});
+        
         setTaskList([...taskList]);
-        localStorage.setItem("taskList", JSON.stringify([...taskList]));
+        // localStorage.setItem("taskList", JSON.stringify([...taskList]));
     }
 
     return  (
@@ -83,7 +91,7 @@ function ShowTasks({ taskList, setTaskList, statusTask }: TaskListProps) {
                                     </button>
                                 </div>
                                 <div className={styles.taskInfoInternalContainer}>
-                                    <div style={{ height: "fit-content", width: "auto" }}>
+                                    <div className={`${styles.tilteContainer} ${task.status == "Completed" ? styles.titleTaskCompleted : null}`}>
                                         {task.title}
                                     </div>
                                     <div

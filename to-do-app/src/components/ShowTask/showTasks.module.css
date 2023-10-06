@@ -88,3 +88,15 @@
 .notCompleted {
     background-color: #dedfe1
 }
+
+.tilteContainer{
+    height: "fit-content";
+    width: "auto";
+
+    transition: color 0.5s;
+}
+
+.titleTaskCompleted {
+    text-decoration: line-through;
+    color: #ccc;
+}
