@@ -20,7 +20,7 @@ function ManageToDo({ onAddTask, statusTask, setStatusTask }: Props) {
   const [showModal, setShowModal] = useState(false);
 
   const handleClickNewTask = (titleTaskRef: React.RefObject<HTMLInputElement>, statusTaskRef: React.RefObject<HTMLSelectElement>) => {
-    if (!titleTaskRef.current || !titleTaskRef.current.value) {
+    if (!titleTaskRef.current || !titleTaskRef.current.value || !titleTaskRef.current.value.trim()) {
       toast.error("Non hai inserito il nome del task!");
       return;
     }

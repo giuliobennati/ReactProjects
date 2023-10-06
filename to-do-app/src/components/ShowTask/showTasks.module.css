@@ -1,4 +1,5 @@
 .containerTasks {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -29,7 +30,7 @@
     display: flex;
 
     width: 85%;
-    height: 100%;
+    height: auto;
 }
 
 .taskActionsContainer {
@@ -90,8 +91,8 @@
 }
 
 .tilteContainer{
-    height: "fit-content";
-    width: "auto";
+    height: fit-content;
+    width: auto;
 
     transition: color 0.5s;
 }

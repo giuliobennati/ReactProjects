@@ -91,7 +91,7 @@ function ShowTasks({ taskList, setTaskList, statusTask }: TaskListProps) {
                                     </button>
                                 </div>
                                 <div className={styles.taskInfoInternalContainer}>
-                                    <div className={`${styles.tilteContainer} ${task.status == "Completed" ? styles.titleTaskCompleted : null}`}>
+                                    <div className={`${styles.tilteContainer} ${task.status == "Completed" ? styles.titleTaskCompleted : ''}`}>
                                         {task.title}
                                     </div>
                                     <div

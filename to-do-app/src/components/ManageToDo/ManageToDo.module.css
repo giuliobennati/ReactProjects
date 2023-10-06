@@ -1,6 +1,6 @@
 .btnsContainer {
     width: 100%;
-    height: 10%;
+    height: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
