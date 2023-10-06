@@ -1,18 +1,33 @@
 import "./App.css";
 import ManageToDo from "./components/ManageToDo/ManageToDo";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import ShowTasks from "./components/ShowTask/ShowTasks";
 import { ITask, taskFilter } from "./models/Interfaces";
 import "react-toastify/dist/ReactToastify.min.css";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [taskList, setTaskList] = useState<ITask[]>([]);
   const [statusTask, setStatusTask] = useState<taskFilter>("All");
 
+  useEffect(() => {
+    const taskListString = localStorage.getItem("taskList");
+    if(taskListString){
+      setTaskList(JSON.parse(taskListString));
+    }
+  }, []);
+
   const onAddNewTask = (task: ITask) => {
-    setTaskList([...taskList, task]);
+    try{
+      setTaskList([...taskList, task]);
+      localStorage.setItem("taskList", JSON.stringify([...taskList, task]));
+    }catch(ex){
+      if(ex instanceof Error)
+        toast.error(ex.message);
+      else if(typeof ex === "string")
+        toast.error(ex);
+    }
   };
 
   const onSetTaskList = (newTaskList: ITask[]) => {

@@ -6,12 +6,11 @@ import { ITask, taskFilter } from "../../models/Interfaces";
 import { toast } from "react-toastify";
 import Button from "react-bootstrap/Button";
 import FormSelect from "react-bootstrap/FormSelect";
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import "bootstrap/dist/css/bootstrap.min.css";
 import ModalCentered from "../ModalCentered/ModalCentered";
 
 
-interface Props{
+interface Props {
   onAddTask: (task: ITask) => void;  
   statusTask: taskFilter;
   setStatusTask: (value: taskFilter) => void;
@@ -57,7 +56,7 @@ function ManageToDo({ onAddTask, statusTask, setStatusTask }: Props) {
           value={statusTask}
           onChange={(e) => setStatusTask(e.target.value as taskFilter)}
           className="w-25">
-            <option value="All" selected>All</option>
+            <option value="All">All</option>
             <option value="Completed">Completed</option>
             <option value="Incompleted">Incompleted</option>
         </FormSelect>

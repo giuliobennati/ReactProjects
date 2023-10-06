@@ -20,9 +20,13 @@ function ModalCentered({ showModal, setShowModal, handleClickOk, taskToEdit = nu
       titleTaskRef.current!.value = taskToEdit ? taskToEdit.title : "";
 
     
-    if(statusTaskRef && statusTaskRef.current && taskToEdit)
-      statusTaskRef.current.value = taskToEdit.status;
-
+    if(statusTaskRef && statusTaskRef.current){
+      if(taskToEdit)
+        statusTaskRef.current.value = taskToEdit.status;
+      else
+        statusTaskRef.current.value = "Incompleted";
+    }
+      
   });
 
   return (
@@ -49,14 +53,13 @@ function ModalCentered({ showModal, setShowModal, handleClickOk, taskToEdit = nu
           />
           <label htmlFor="floatingInput">Task title</label>
         </div>
-        {/* taskToEdit?.status.toString() */}
         <select
           ref={statusTaskRef}
           className="form-select"
           aria-label="Default select example"
         >
-          <option value="Incompleted" selected={!taskToEdit ? true : taskToEdit.status == "Incompleted"}>Incompleted</option>
-          <option value="Completed" selected={!taskToEdit ? false : taskToEdit.status == "Completed"}>Completed</option>
+          <option value="Completed">Completed</option>
+          <option value="Incompleted">Incompleted</option>
         </select>
       </Modal.Body>
       <Modal.Footer>

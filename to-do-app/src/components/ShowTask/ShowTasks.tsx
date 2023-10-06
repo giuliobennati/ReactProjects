@@ -17,35 +17,53 @@ function ShowTasks({ taskList, setTaskList, statusTask }: TaskListProps) {
     const [taskSelected, setTaskSelected] = useState<ITask | null>(null);
 
     const confirmEditTask = (titleTaskRef: React.RefObject<HTMLInputElement>, statusTaskRef: React.RefObject<HTMLSelectElement>, taskToEdit?: ITask | null) => {
-        if (!titleTaskRef.current || !titleTaskRef.current.value) {
-            toast.error("Non hai inserito il nome del task!");
-            return;
+        try{
+            if (!titleTaskRef.current || !titleTaskRef.current.value) {
+                toast.error("Non hai inserito il nome del task!");
+                return;
+            }
+    
+            if (taskToEdit == null) {
+                toast.error("Il task da modificare risulta non selezionato!");
+                return;
+            }
+    
+            taskToEdit.title = titleTaskRef.current.value;
+            taskToEdit.status = statusTaskRef.current!.value as ("Completed" | "Incompleted");
+    
+            setTaskList([...taskList]);
+    
+            localStorage.setItem("taskList", JSON.stringify([...taskList]));
+    
+            setShowEditModal(false);
+        }catch(ex){
+            if(ex instanceof Error)
+              toast.error(ex.message);
+            else if(typeof ex === "string")
+              toast.error(ex);
         }
-
-        if (taskToEdit == null) {
-            toast.error("Il task da modificare risulta non selezionato!");
-            return;
-        }
-
-        taskToEdit.title = titleTaskRef.current.value;
-        taskToEdit.status = statusTaskRef.current!.value as ("Completed" | "Incompleted");
-
-        setTaskList([...taskList]);
-
-        setShowEditModal(false);
     };
 
     const handleRemoveTask = (index: number) => {
-        taskList.splice(index, 1);
-
-        setTaskList([...taskList]);
-
-        toast.success("Attività rimossa con successo!");
+        try{
+            taskList.splice(index, 1);
+    
+            setTaskList([...taskList]);
+            localStorage.setItem("taskList", JSON.stringify([...taskList]));
+    
+            toast.success("Attività rimossa con successo!");
+        }catch(ex){
+            if(ex instanceof Error)
+                toast.error(ex.message);
+            else if(typeof ex === "string")
+                toast.error(ex);
+        }
     };
 
     const handleTaskStatus = (task : ITask) => {
         task.status = task.status == "Completed" ? "Incompleted" : "Completed";
         setTaskList([...taskList]);
+        localStorage.setItem("taskList", JSON.stringify([...taskList]));
     }
 
     return  (
